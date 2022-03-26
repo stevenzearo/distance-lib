@@ -3,11 +3,29 @@ plugins {
     id 'idea'
 }
 group 'com.stevenzearo.distance-lib'
-version '0.0.1-SNAPSHOT'
+version '0.0.2-SNAPSHOT'
 
 allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
+    apply plugin: 'maven-publish'
+    publishing {
+        repositories {
+            maven {
+                name = "DistanceLib"
+                url = uri("https://maven.pkg.github.com/stevenzearo/distance-lib")
+                credentials {
+                    username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                    password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                }
+            }
+        }
+        publications {
+            gpr(MavenPublication) {
+                from(components.java)
+            }
+        }
+    }
 
     repositories {
         mavenCentral()

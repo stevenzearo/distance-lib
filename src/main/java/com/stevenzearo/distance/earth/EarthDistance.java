@@ -19,10 +19,6 @@ public final class EarthDistance implements Distance {
 
     @Override
     public double calculate(Location first, Location second) {
-        return calculateShortDistance(first, second);
-    }
-
-    private double calculateShortDistance(Location first, Location second) {
         var latitude1 = degreesToRadians(first.getLatitude());
         var longitude1 = degreesToRadians(first.getLongitude());
         var latitude2 = degreesToRadians(second.getLatitude());
