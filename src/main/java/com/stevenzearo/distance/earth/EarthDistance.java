@@ -27,18 +27,15 @@ public final class EarthDistance implements Distance {
         var longitude1 = degreesToRadians(first.getLongitude());
         var latitude2 = degreesToRadians(second.getLatitude());
         var longitude2 = degreesToRadians(second.getLongitude());
-        return calculateDistance(latitude1, latitude2, latitude1, longitude1, latitude2, longitude2);
+        return calculateDistance(latitude1, longitude1, latitude2, longitude2);
     }
 
-    private double calculateDistance(double b1, double b2, double latitude1, double longitude1, double latitude2, double longitude2) {
-        var absDiffLatitude = latitude1 - latitude2;
-        var absDiffLongitude = longitude1 - longitude2;
-
-        var h = Math.cos(latitude1) * Math.cos(latitude2) * doSin(absDiffLongitude) + doSin(absDiffLatitude);
+    private double calculateDistance(double latitude1, double longitude1, double latitude2, double longitude2) {
+        var h = Math.cos(latitude1) * Math.cos(latitude2) * doSin(longitude1 - longitude2) + doSin(latitude1 - latitude2);
         double o = 2.0 * Math.asin(Math.sqrt(h));
 
-        var p = (b1 + b2) / 2;
-        var q = (b2 - b1) / 2;
+        var p = (latitude1 + latitude2) / 2;
+        var q = (latitude1 - latitude2) / 2;
 
         var m = (1 - Math.cos(2 * p)) / 2;
         var n = (1 + Math.cos(2 * q)) / 2;
